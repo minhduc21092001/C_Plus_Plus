@@ -14,5 +14,4 @@ class LibraryMS
         void Add(LibraryCard& temp);
         void Show();
         void Erase(int CardNumber);
-        void hello();
 };
