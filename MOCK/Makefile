@@ -1,0 +1,1 @@
+g++ -o main main.cpp Model\Board.cpp Model\Player.cpp View\PlayUI.cpp Controller\PlayCon.cpp
