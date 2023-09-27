@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include"..\Model\Board.h"
+#include"..\Model\Player.h"
 
 enum CHOICE
 {
@@ -28,6 +29,8 @@ class PlayUI
         int InputInteger();
 
         void MainMenu();   
+
+        void ShowPlayer(Player Player);
 };
 
 #endif // PLAYUI_H

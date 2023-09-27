@@ -15,6 +15,8 @@ class SearchCon
         void Run();
 
         void ReadPlayerInfo();
+
+        int Evaluate(Player player);
 };
 
 #endif // SEARCHCON_H

@@ -1,33 +1,38 @@
 #include<iostream>
+#include<algorithm>
 #include<fstream>
 #include"SearchCon.h"
 
 void SearchCon::Run()
 {
-    playerlist.clear();
-    ReadPlayerInfo(); // load to playerlist
+    playerlist.clear(); // for updating a new playerlist
+    ReadPlayerInfo(); // load data to playerlist
+    std::sort(playerlist.begin(), playerlist.end(), [&](Player& a, Player& b){return Evaluate(a) < Evaluate(b);}); // sorting vector
+    searchUI.ClearScr();
     searchUI.Prompt("Enter name to search: ");
     std::string s = searchUI.InputString();
-    for(Player& it : playerlist)
+    for(std::vector<Player>::iterator it = playerlist.begin(); it != playerlist.end(); it++)
     {
-        if(it.GetName() == s)
+        if((*it).GetName() == s)
         {
-            searchUI.Prompt("Name: ");
-            searchUI.Prompt(it.GetName());
-            searchUI.Prompt("\n");
-            searchUI.Prompt("Win: ");
-            searchUI.Prompt(it.GetWin());
-            searchUI.Prompt("\n");
-            searchUI.Prompt("Lose: ");
-            searchUI.Prompt(it.GetLose());
-            searchUI.Prompt("\n");
-            searchUI.Prompt("Draw: ");
-            searchUI.Prompt(it.GetDraw());
-            searchUI.Prompt("\n");
+            searchUI.ShowPlayer(*it);
+            searchUI.Prompt("==========Worthy Rival==========\n");
+            if(it + 1 == playerlist.end()) // if it is last element, taking previous element
+            {
+                searchUI.ShowPlayer(*(it - 1));
+            }
+            else
+            {
+                searchUI.ShowPlayer(*(it + 1)); // if it is not last element, taking next element
+            }
+            searchUI.Prompt("Enter anything to quit: ");
+            searchUI.InputString();
             return;
         }
     }
     searchUI.Prompt("Can't find!\n");
+    searchUI.Prompt("Enter anything to quit: ");
+    searchUI.InputString();
 }
 
 void SearchCon::ReadPlayerInfo()
@@ -92,4 +97,11 @@ void SearchCon::ReadPlayerInfo()
     }
 
     file.close();
+}
+
+int SearchCon::Evaluate(Player player)
+{
+    int points;
+    points = (player.GetWin() * 2) + player.GetDraw() - player.GetLose();
+    return points;
 }

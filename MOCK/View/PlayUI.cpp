@@ -14,6 +14,7 @@ void PlayUI::Prompt(int i)
 
 void PlayUI::ShowBoard(Board b)
 {
+    std::system("cls");
     std::cout << "Player 1<X> - Player 2 <O>" << std::endl;
     for(int i = 0; i < 10 ; i++)
     {
@@ -54,9 +55,19 @@ int PlayUI::InputInteger()
 
 void PlayUI::MainMenu()
 {
+    std::system("cls");
     std::cout << "==========Welcome to Gomoku Game==========" << std::endl;
     std::cout << "1. Play Game" << std::endl;
     std::cout << "2. Search by name" << std::endl;
     std::cout << "3. Relay games" << std::endl;
+    std::cout << "4. Exit game" << std::endl;
     std::cout << "Your choice: ";
+}
+
+void PlayUI::ShowPlayer(Player player)
+{
+    std::cout << "Name:" << player.GetName() << std::endl;
+    std::cout << "Win: " << player.GetWin() << std::endl;
+    std::cout << "Lose: " << player.GetLose() << std::endl;
+    std::cout << "Draw: " << player.GetDraw() << std::endl;
 }

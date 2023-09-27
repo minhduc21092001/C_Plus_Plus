@@ -5,6 +5,7 @@
 #include<vector>
 #include"..\Model\Board.h"
 #include"..\Model\Player.h"
+#include"..\Model\Step.h"
 #include"..\View\PlayUI.h"
 
 class PlayCon
@@ -15,6 +16,7 @@ class PlayCon
         Player player1;
         Player player2;
         std::vector<Player> playerlist;
+        std::vector<Step> steplist;
     public:
         PlayCon();
 
@@ -31,6 +33,8 @@ class PlayCon
         void WritePlayerInfo();
 
         void SaveInfo(int count);
+
+        void WriteReplayInfo();
 };
 
 #endif // PLAYCON_H

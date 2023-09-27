@@ -17,12 +17,16 @@ void MainCon::Run()
                 searchcon.Run();
                 break;
             case REPLAY:
+                replaycon.Run();
                 break;
             case EXIT:
                 break;
             default:
+            {
                 mainUI.Prompt("Your choice is incorrect! Please type again...\n");
+                mainUI.InputString();
                 break;
+            }
         }
     } while(ch != EXIT);
 }

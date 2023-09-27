@@ -5,6 +5,7 @@
 #include"PlayCon.h"
 #include"..\View\PlayUI.h"
 #include"SearchCon.h"
+#include"ReplayCon.h"
 
 class MainCon
 {
@@ -12,6 +13,7 @@ class MainCon
         PlayUI mainUI;
         PlayCon playcon;
         SearchCon searchcon;
+        ReplayCon replaycon;
     public:
         void Run();
 };

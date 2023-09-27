@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include<ctime>
 #include"PlayCon.h"
 
 PlayCon::PlayCon()
@@ -10,6 +11,7 @@ PlayCon::PlayCon()
 
 void PlayCon::Run()
 {
+    steplist.clear(); // capacity isn't setted to zero only size
     board = {}; //reset board
     playUI.Prompt("Player1 Name: ");
     std::string name1 = playUI.InputString();
@@ -60,7 +62,7 @@ void PlayCon::Run()
             }
         }
         board.SetBoard(row - 1, column - 1, 'X'); // player view
-        playUI.ClearScr();
+        steplist.push_back(Step{row, column}); // for replaying
         playUI.ShowBoard(board);
         if(WinCondition())
         {
@@ -97,7 +99,7 @@ void PlayCon::Run()
             }
         }
         board.SetBoard(row - 1, column - 1, 'O');
-        playUI.ClearScr();
+        steplist.push_back(Step{row, column}); // for replaying
         playUI.ShowBoard(board);
         if(WinCondition())
         {
@@ -113,6 +115,9 @@ void PlayCon::Run()
 
     SaveInfo(count);
     WritePlayerInfo();
+    WriteReplayInfo();
+    playUI.Prompt("Enter anything to quit: ");
+    playUI.InputString();
 }
 
 bool PlayCon::WinCondition()
@@ -395,4 +400,31 @@ void PlayCon::SaveInfo(int count)
             }
         }
     }
+}
+
+void PlayCon::WriteReplayInfo()
+{
+    std::fstream file("Replays.ini", std::ios::app); // appending
+    if(!file.is_open())
+    {
+        playUI.Prompt("Error: Could not open file for writing.\n"); // std::cerr
+        return;
+    }
+
+    std::time_t currentTime = std::time(nullptr); // Get the current time
+    std::string timeString = std::ctime(&currentTime); // Convert the time to a human-readable string
+    
+    file << "[Replay]\n";
+    file << "Name1=" << player1.GetName() << "\n";
+    file << "Name2=" << player2.GetName() << "\n";
+    file << "Time=" << timeString;
+
+    int count = 1;
+    for(Step& it : steplist)
+    {
+        file << "Step" << count << "=" << it.GetRow() << " " << it.GetColumn() << "\n";
+        count++;
+    }
+    file << "\n";
+    file.close();
 }
